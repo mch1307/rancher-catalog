@@ -21,7 +21,7 @@
       description: "Rancher API secret"
       label: "Rancher API secret:"
       required: true
-      type: "string"      
+      type: "string"
     - variable: "host_label"
       description: "Host label where to run traefik service."
       label: "Host label:"

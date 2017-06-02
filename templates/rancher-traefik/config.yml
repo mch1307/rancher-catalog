@@ -1,7 +1,7 @@
 name: rancher-traefik
 description: |
-  # Traefik service connecting to Cattle orchestrator for dynamicconfiguration
-version: 0.0
+  Traefik service connecting to Cattle orchestrator for dynamic configuration
+version: 1.3.0.0
 category: Load balancing
 maintainer: "MichaelChampagne <mch1307@gmail.com>"
 license:

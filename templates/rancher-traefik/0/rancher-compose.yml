@@ -3,18 +3,18 @@ catalog:
   name: traefik
   version: 1.3.0.0
   description: |
-    Traefik connecting to Cattle orchestrator for dynamic configuration
+    Traefik connecting to Rancher API for dynamic configuration. No ACME support.
   minimum_rancher_version: v1.5.0
   maintainer: "Michael Champagne <mch1307@gmail.com>"
   uuid: traefik-0
   questions:
     - variable: "rancher_api"
-      description: "Rancher API url"
-      label: "Rancher API url:"
+      description: "Rancher API url endpoint (ie http://rancherhost:8080/v1"
+      label: "Rancher API url"
       required: true
       type: "string"
     - variable: "rancher_api_key"
-      description: "Rancher API key"
+      description: "Rancher API access key. If several env, key should be restricted to only one"
       label: "Rancher API key:"
       required: true
       type: "string"
@@ -47,6 +47,12 @@ catalog:
       required: true
       default: 8000
       type: "int"
+    - variable: "traefik_domain"
+      description: "Domain name"
+      label: "Domain for Traefik"
+      required: true
+      default: "example.com"
+      type: "string"
     - variable: "https_enable"
       label: "Enable HTTPS:"
       description: |
@@ -58,35 +64,18 @@ catalog:
         - false
         - true
         - only
-    - variable: "https_cert"
-      label: "Certificate"
-      description: "SSL certificate to use"
-      required: true
-      type: "certificate"
-    - variable: "acme_enable"
-      description: "Enable acme support on traefik."
-      label: "Enable ACME:"
-      required: true
-      default: false
-      type: "boolean"
-    - variable: "acme_email"
-      description: "ACME user email."
-      label: "ACME email:"
-      required: true
-      default: "test@traefik.io"
-      type: "string"
-    - variable: "acme_ondemand"
-      description: "Enable acme ondemand."
-      label: "ACME ondemand:"
-      required: true
-      default: true
-      type: "boolean"
-    - variable: "acme_onhostrule"
-      description: "Enable acme onHostRule."
-      label: "ACME onHostRule:"
-      required: true
-      default: true
-      type: "boolean"
+    - variable: "ssl_key"
+      description: "SSL key to secure the service. *Required if you enable https"
+      label: "SSL key"
+      type: "multiline"
+      required: false
+      default: ""
+    - variable: "ssl_cert"
+      description: "SSL cert to secure the service. *Required if you enable https"
+      label: "SSL cert"
+      type: "multiline"
+      required: false
+      default: ""
     - variable: "refresh_interval"
       description: "Interval to poll/apply configuration changes."
       label: "Refresh Interval (s):"
@@ -107,4 +96,4 @@ traefik:
       ssl_key: |
         ${ssl_key}
       ssl_crt: |
-        ${ssl_crt}
+        ${ssl_cert}

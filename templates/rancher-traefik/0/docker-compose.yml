@@ -3,37 +3,17 @@ services:
   traefik:
     image: mch1307/rancher-traefik:1.3.0.0
     environment:
-      TRAEFIK_RANCHER_ACCESSKEY: /run/secrets/access_key
-      TRAEFIK_RANCHER_SECRET: /run/secrets/secret_key
-      TRAEFIK_SSL_CERT: /run/secrets/ssl_cert
-      TRAEFIK_SSL_PRIVATE_KEY: /run/secrets/ssl_key
-      TRAEFIK_RANCHER_ENDPOINT: http://rancher1.csnet.me:8080/v1
-      TRAEFIK_RANCHER_DOMAIN: csnet.me
+      TRAEFIK_RANCHER_ACCESSKEY: ${rancher_api_key}
+      TRAEFIK_RANCHER_SECRET: ${rancher_api_secret}
+      TRAEFIK_SSL_CERT: ${ssl_cert}
+      TRAEFIK_SSL_PRIVATE_KEY: ${ssl_key}
+      TRAEFIK_RANCHER_ENDPOINT: ${rancher_api}
+      TRAEFIK_RANCHER_DOMAIN: ${traefik_domain}
+      TRAEFIK_REFRESH: ${refresh_interval}
     ports:
-    - 80:80/tcp
-    - 443:443/tcp
-    - 8000:8000/tcp
-    secrets:
-    - gid: '0'
-      mode: '444'
-      name: access_key
-      secretId: 15
-      uid: '0'
-    - gid: '0'
-      mode: '444'
-      name: secret_key
-      secretId: 14
-      uid: '0'
-    - gid: '0'
-      mode: '444'
-      name: ssl_cert
-      secretId: 10
-      uid: '0'
-    - gid: '0'
-      mode: '444'
-      name: ssl_key
-      secretId: 11
-      uid: '0'
+    - ${http_port}:80/tcp
+    - ${https_port}:443/tcp
+    - ${admin_port}:8000/tcp
     labels:
       io.rancher.container.pull_image: always
-      io.rancher.scheduler.affinity:host_label: traefik.lb=true
+      io.rancher.scheduler.affinity:host_label: ${host_label}
